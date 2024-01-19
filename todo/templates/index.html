@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Flask Nilai Anggota</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/list.css') }}"
+    />
+    <style></style>
+  </head>
+  <body>
+    <section class="main-page">
+      <div class="main-container">
+        <h1 class="main-title"><span style="color: rgb(99, 122, 223);">Our</span>To<span style="color: rgb(221, 30, 78);">do</span></h1>
+        <form action="{{ url_for('add') }}" method="post">
+          <div class="input-container">
+            <input type="text" name="todo" placeholder="Describe your plans here...">
+            <button class="add" type="submit">Add</button>
+        </div>
+            <select class="select-box" name="member">
+              {% for member in todos.keys() %}
+              <option value="{{ member }}">{{ member }}</option>
+            {% endfor %}
+            </select>
+            
+          </form>
+
+          <ul class="container-list">
+            {% for member, member_todos in todos.items() %}
+              <div class="member-container">
+                <h4>{{ member }}'s Todo List</h4>
+              {% for todo in member_todos %}
+                <li>
+                  <div class="todo-container">  
+                    <div class="todo-item">
+                      <input type="checkbox" name="done" {% if todo['done'] %}checked{% endif %} onchange="this.form.submit()">
+                      <label {% if todo['done'] %}class="completed"{% endif %}>{{ todo['task'] }}</label>
+                    </div>
+                    
+                    <!-- Modify link to include member information -->
+                    <a href="{{ url_for('edit', member=member, index=loop.index0) }}" class="todo-action" id="edit">Edit</a>
+                    <a href="{{ url_for('delete', member=member, index=loop.index0) }}" class="todo-action" id="del">Delete</a>
+                  </div>
+                  
+                </li>
+              {% endfor %}
+              </div>
+            {% endfor %}
+          </ul>
+      </div>
+    </section>
+  </body>
+</html>
