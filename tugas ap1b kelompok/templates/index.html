@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Flask Nilai Anggota</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/style.css') }}"
+    />
+    <style></style>
+  </head>
+  <body>
+    <section class="main-page">
+      <div class="main-container">
+        <h1 class="main-title">Grade hub</h1>
+        <div class="navbar-container">
+          <ul>
+            <span class="active">New Group</span>
+            <li><a href="/inputgrade">Input Grade</a></li>
+            <li><a href="/list">List Group</a></li>
+            <li><a href="/ranking">Ranking</a></li>
+          </ul>
+        </div>
+
+        <section class="form">
+          <div class="container-form">
+            <h2>Create New Group</h2>
+            <form action="{{ url_for('create_group') }}" method="post">
+            <label for="group_name">Group Name:</label>
+            <input type="text" class="group-name" name="group_name" required />
+
+            <label for="group_members"
+              >Group Members (separate with commas):</label
+            >
+            <textarea
+              type="text"
+              class="group-members"
+              name="group_members"
+              required
+            ></textarea>
+            <button type="submit">Create Group</button>
+          </div>
+
+            
+          
+        </section>
+      </div>
+    </section>
+  </body>
+</html>

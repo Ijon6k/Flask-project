@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Flask Nilai Anggota</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/grade.css') }}"
+    />
+    <style>
+      body {
+        transition: opacity 0.5s ease-in-out;
+      }
+    </style>
+  </head>
+  <body>
+    <section class="main-page">
+      <div class="main-container">
+        <h1 class="main-title">Grade hub</h1>
+        <div class="navbar-container">
+          <ul>
+            <li><a href="/index">New Group</a></li>
+            <span class="active">Input Grade</span>
+            <li><a href="/list">List Group</a></li>
+            <li><a href="">Ranking</a></li>
+          </ul>
+        </div>
+        <div class="container-content">
+          <form
+            class="input-form"
+            action="{{ url_for('calculate_average') }}"
+            method="post"
+          >
+            {% if database_kelompok %} {% for group in database_kelompok %}
+            <div>
+              <strong>{{ group.name }}</strong>:
+              <ul>
+                {% for member in group.members %}
+                <li>
+                  <label for="{{ group.name }}_{{ member }}" class="input-label"
+                    >{{ member }}</label
+                  >
+                  <div class="container-input">
+                    <input
+                      type="text"
+                      name="{{ group.name }}_{{ member }}"
+                      class="input-field"
+                      required
+                    />
+                  </div>
+                </li>
+                {% endfor %}
+              </ul>
+              <input type="hidden" name="group_name" value="{{ group.name }}" />
+              {% for member_data in group.members_data %}
+              <input
+                type="hidden"
+                name="{{ group.name }}_{{ member_data.name }}"
+                value="dummy"
+              />
+              {% endfor %}
+            </div>
+            {% endfor %}
+            <br />
+            <button class="submit-button" type="submit">
+              Calculate the Average
+            </button>
+            {% else %}
+            <h3 class="no-data">"No groups to showcase yet!"</h3>
+            {% endif %}
+          </form>
+        </div>
+
+        {% if members_data is defined %}
+        <h2 class="result-title">Rata-Rata Nilai Anggota</h2>
+        <ul class="result-list">
+          {% for group in database_kelompok %}
+          <div class="group-container">
+            <h3 class="name-group">{{ group.name }}</h3>
+            <ul>
+              {% for member_data in group.members_data %}
+              <li class="result-item">
+                {{ member_data.name }} : {% if member_data.average is defined %}
+                {{ '%.2f'|format(member_data.average) }}{% else %} Tidak ada
+                nilai {% endif %}
+              </li>
+              {% endfor %}
+            </ul>
+          </div>
+          {% endfor %}
+        </ul>
+        <form class="selesai" action="{{ url_for('index') }}" method="get">
+          <button class="submit-button" type="submit">Selesai</button>
+        </form>
+        {% endif %}
+      </div>
+    </section>
+  </body>
+</html>
