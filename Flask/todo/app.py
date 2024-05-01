@@ -4,10 +4,10 @@ app = Flask(__name__, template_folder='templates')
 
 # Ganti struktur data todos
 todos = {
-    'Muhammad An Ghafari (50423858)': [],
-    'Astrela Nydia Hutasuhut (50423220)': [],
-    'Adam Febriansyah (50423032)': [],
-    'Zulfitrah Fajar (51423510)': []
+    'Person1': [],
+    'person 2': [],
+    'Person 3': [],
+    'person 4': []
 }
 
 
